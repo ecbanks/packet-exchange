@@ -1,0 +1,30 @@
+conf t
+    hostname SW1
+    ip domain-name behemothbikes.com
+    crypto key generate rsa general modulus 2048
+    ip ssh version 2
+    ip ssh logging events
+    !
+    username demo privilege 15 password 0 notverysecure
+    !
+    interface GigabitEthernet3/3
+     description UPLINK TO REAL LAN
+     switchport mode access
+     switchport nonegotiate
+     media-type rj45
+     negotiation auto
+     spanning-tree portfast edge
+    !
+    interface Vlan1
+     description MANAGEMENT
+     ip address 192.168.95.151 255.255.255.0
+    !
+    line con 0
+     logging synchronous
+    line vty 0 15
+     logging synchronous
+     login local
+     transport input ssh
+    !
+    !
+    end
