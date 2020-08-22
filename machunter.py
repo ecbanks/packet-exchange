@@ -1,3 +1,5 @@
+## PACKET EXCHANGE S2E3
+#
 # Import libraries for extra functionality.
 from pprint import pprint                       # PrettyPrinting
 import netmiko                                  # Network device CLI handling
@@ -7,7 +9,7 @@ from ntc_templates.parse import parse_output    # Turn CLI output into structure
 # https://ktbyers.github.io/netmiko/#tutorialsexamplesgetting-started
 network_device = {
     'device_type': 'cisco_ios',
-    'host':   '172.22.46.1',
+    'host':   '172.16.72.10',
     'username': 'demo',
     'password': 'notverysecure',
 }
@@ -27,5 +29,17 @@ cli_output_blob = socket.send_command(the_cli_command)
 # Save the parsed result, which should be structured data.
 cli_output_structured = parse_output(platform="cisco_ios", command=the_cli_command, data=cli_output_blob)
 
-# PrettyPrint the data structure that the ntc_templates library made for us.
-pprint(cli_output_structured,indent=4)
+# Print formatted report of MAC address table.
+print('----------------------------------------------------------------------------------')
+print('HELLO, AUTOMATOR!')
+print('I sent the \'' + the_cli_command + '\' command to the network device at ' + network_device['host']+ '.')
+print('There are ' + str(len(cli_output_structured)) + ' results...\n')
+
+for row in cli_output_structured:                           # Loop through each row in the cli_output_structured list.
+    sequence = cli_output_structured.index(row)             # Get the index (number) of the row for this iteration.
+    print(str(sequence) + '. MAC: ' + row['destination_address'] + '   VLAN: ' + row['vlan'] +
+          '   INTERFACE: ' + row['destination_port'])
+
+print('==================================================================================\n')
+
+#print(cli_output_structured)
