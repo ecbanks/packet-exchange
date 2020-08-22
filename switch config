@@ -17,7 +17,7 @@ conf t
     !
     interface Vlan1
      description MANAGEMENT
-     ip address 192.168.95.151 255.255.255.0
+     ip address A.B.C.D 255.255.255.0
     !
     line con 0
      logging synchronous
